@@ -198,28 +198,20 @@ Create a function to find the index of the greatest element of a given array of 
 Create a function to get the largest even number from an array of integers.???
 */
 function findthelargest(myArray) {
-    let greatest=myArray[0];
-    let index=0
-  for (i=0; i<myArray.length; i++) {  
-        if(myArray[i] % 2===0 ) { 
-            let largest=myArray[0]
-            index1=i
-            for (i2=0; i2<myArray.length; i2++){
-                if (myArray[i2] %  2===0 && myArray[i2]>largest) { 
-                largest=myArray[i2]
-                index2=i2
-                }
-            }
-                    
-            
-        }
-    }
-  console.log(index1,index2)
+    let largest=0;
+        for (let i=0; i<myArray.length; i++){
+              if (myArray[i] %  2===0 && myArray[i]>largest) { 
+              largest=myArray[i] 
+              }               
+          }
+ 
   return  largest
 }
 
-/*let myArray = [ 1, 5, 9,60,43,21,79,50,45,64,23,24 ]; 
-console.log(findthelargest(myArray))
+
+
+/*let Array = [ 1, 5, 9,60,43,21,79,50,45,64,23,24 ] 
+console.log(findthelargest(Array))
 
    /*
 15)
@@ -283,21 +275,49 @@ this would be a "DiegoRiccardo".
 this would be "34".
 */
 
+const numberToString= function (number) {
+  let results=[]
+
+  if (number % 3===0){
+      results.push("Diego")
+      
+  }
+   if(number % 5===0) {
+  
+   results.push("Riccardo")
+  }
+   if(number % 7===0) {
+  
+   results.push("Stefano")
+  }
+ 
+ 
+  if(results.length ===0){
+  results= number.toString()
+  }
+ else {
+   results=results.join("")
+}
+
+ return results
+}
+
+
+
 
 /*
 20)
 Create a function that given a phrase returns its acronym, like British Broadcasting Corporation returns BBC
-*/function makeAcronym(string) {
-    let acronym=[]
-    
+*/
+
+function makeAcronym(string) {
+  let acronym=[]
    let array=string.split(" ")
    for(let i=0;i<array.length ;i++) {
     let lettersArray=array[i].split("")
     acronym.push(lettersArray[0])
-}
+    }   
    
-   
-    
   return  acronym.join("")
 }
 
