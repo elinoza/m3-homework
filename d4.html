@@ -95,8 +95,8 @@
     let addCart=document.querySelectorAll(".addToCart")
     
     addCart.forEach(button => button.addEventListener("click", addToCart))
-    let myCart=document.querySelector("#cart")
-    myCart.innerHTML=""
+    let myCartList=document.querySelector("#cart")
+    myCartList.innerHTML=""
   
 
     function addToCart(evt) {
@@ -104,7 +104,7 @@
            selectedCard.classList.add("selectedCard")
            const selectedBooks = document.querySelectorAll(".selected");
         selectedBooks.forEach(
-          (selectedBook) => (myCart.innerHTML += selectedBook.outerHTML)
+          (selectedBook) => (myCartList.innerHTML += selectedBook.outerHTML)
         )
 
            
