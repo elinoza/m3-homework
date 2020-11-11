@@ -47,9 +47,102 @@
     </nav>
 
     <div class="container">
-      <div class="row" id="productGrid"></div>
-    </div>
+        <h1 class="text-center bg-warning">MAMAZON PRODUCT ADD</h1>
+        <h5 class="text-center bg-success text-white">Admin Panel</h5>
+        
+        <div class="row">
+          <div class="col-12 col-md-6 pl-4  ">
+                <h2 class="text-center mt-5">Add a new product</h2>
+                <form onsubmit="handleSubmit(event)">
+              <div class="form-group">
+                <label for="name">Product Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Write here the product name"
+                />
+              </div>
+  
+              <div class="form-group">
+                <label for="description">Event description</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  rows="3"
+                  placeholder="Write here the event description"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="brand">Product Brand</label>
+                <input type="text" id="brand" />
+              </div>
+              <div class="form-group">
+                <label for="url">Product Image URL</label>
+                <input type="text" id="imageUrl" />
+              </div>
+  
+              <div class="form-group">
+                <label for="price">price</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price"
+                  placeholder="Write here the event price"
+                />
+              </div>
+  
+            
+  
+              <div class="form-group">
+                <button
+                  class="btn btn-success"
+                  type="submit"
+                  value="Submit Product"
+                >
+                  Submit Product
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="col-6 col-md-6 pr-4">
+            <h2 class="text-center mt-5">Delete a  product</h2>
+            <form onsubmit="handleDelete(event)">
+          <div class="form-group">
+            <label for="name">Product Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nameToDel"
+              placeholder="Write here the product name you want to delete"
+            />
+          </div>
 
+          
+          <div class="form-group">
+            <label for="brand">Product Brand</label>
+            <input type="text" id="brandToDel" />
+          </div>
+         
+
+          
+
+        
+
+          <div class="form-group">
+            <button
+              class="btn btn-danger"
+              type="submit"
+              value="Delete Product"
+            >
+              Delete Product
+            </button>
+          </div>
+          <p id= "selected"> </p>
+        </form>
+          </div>
+        </div>
+      </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <script
@@ -68,27 +161,43 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      window.onload = async () => {
+
+         window.onload = async () => {
+
+const url="https:striveschool-api.herokuapp.com/api/product/"
+
+
+ try{
+     let response = await fetch(url,{
+             method:"GET",
+             headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"
+                     }
+         });
+     let products=await response.json()
+     console.log(products)
+     if (products.length > 0) {
+         products.forEach((e) => {})
+        
+         } 
+ }catch (error) {
+console.log(error);
+}
+}
+        const handleSubmit = (e) => {
+        e.preventDefault(); // preventing the default browser event handling
+        submitProduct();
+         };
+
+     const submitProduct = async () => {
 
           const url="https:striveschool-api.herokuapp.com/api/product/"
 
-          let myProduct = {
-         name: document.querySelector("#name").value,
-         description: document.querySelector("#description").value,
-         time: document.querySelector("#time").value,
-         price: document.querySelector("#price").value,
-               _id://SERVER GENERATED
-               name:   //REQUIRED
-               description:  //REQUIRED
-               brand:  //REQUIRED
-               imageUrl: //REQUIRED
-               price://REQUIRED
-               userId: admin, //SERVER GENERATED
-               createdAt: 2019-07-19T09:32:10.535Z, //SERVER GENERATED
-               updatedAt: 2019-07-19T09:32:10.535Z, //SERVER GENERATED
-               __v: 0 //SERVER GENERATED
-
-
+          let myProduct = {               
+               name:document.querySelector("#name").value,   
+               description:document.querySelector("#description").value,  
+               brand: document.querySelector("#brand").value, 
+               imageUrl:document.querySelector("#imageUrl").value, 
+               price:document.querySelector("#price").value
        };
 
 
@@ -96,42 +205,38 @@
                let response = await fetch(url,{
                        method:"POST",
                        body: JSON.stringify(myProduct),
-                       headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"
-                               },
-                               new Headers({ "Content-Type": "application/json",
-
-                               })
+                       headers:  new Headers({ "Content-Type": "application/json" ,
+                       "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4",
+                                  })
+                              
                    });
-               let products=await response.json()
-               console.log(products)
-               if (products.length > 0) {
-                   products.forEach((e) => {
-                   let col= document.createElement("div");
-                   col.classList.add(
-                   "col-6 col-md-4 col-lg-3"
-                   );
-                  col.innerHTML = `<div class="card" style="width: 18rem;">
-                   <img src="${e.imageUrl}" class="card-img-top" alt="...">
-                   <div class="card-body">
-                       <h5 class="card-title">${e.name}</h5>
-                       <p class="card-text">${e.description}</p>
-                       <div>
-                           <p class="card-text m-0 p-0 mr-auto">${e.brand}</p>
-                           <p class="card-text m-0 p-0 ">${e.price}$</p>
-
-                       </div>
-                       <a href="#" class="btn btn-primary">Go somewhere</a>
-                   </div>
-                   </div>`;
-                   ProductGrid.appendChild(product);
-                   });
-                   } else {
-                       ProductGrid.innerHTML = `<h1 class="text-center bg-danger text-white">No product to display</h1>`;
-                   }
+                   if (response.ok) {
+           
+           
+            location.assign("d8.html");
+          } else {
+            alert("Something went wrong!");
+          }
+             
            }catch (error) {
          console.log(error);
        }
        }
+
+       
+
+       const deleteProduct= function(id){
+            let nameTodel=document.querySelector("#nameToDel").value            
+          let brandToDel=document.querySelector("#brandToDel").value 
+        
+           fetch('https:striveschool-api.herokuapp.com/api/product/' + id, {
+            method: 'DELETE',
+            headers:{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"}
+                        
+            })
+            .then(res =>res.json())
+            .then(res => console.log(res))
+                }
     </script>
   </body>
 </html>
