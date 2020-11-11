@@ -47,7 +47,7 @@
     </nav>
 
     <div class="container">
-        <h1 class="text-center bg-warning">MAMAZON PRODUCT ADD</h1>
+        <h1 class="text-center bg-warning">MAMAZON PRODUCTS</h1>
         <h5 class="text-center bg-success text-white">Admin Panel</h5>
         
         <div class="row">
@@ -108,28 +108,15 @@
           <div class="col-6 col-md-6 pr-4">
             <h2 class="text-center mt-5">Delete a  product</h2>
             <form onsubmit="handleDelete(event)">
-          <div class="form-group">
-            <label for="name">Product Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="nameToDel"
-              placeholder="Write here the product name you want to delete"
-            />
-          </div>
+     
+          <label for="product-dropdown">Choose the product</label>
+            <select id="product-dropdown">
+                <option value="username">default</option>
+            
+            
+            </select>
 
-          
-          <div class="form-group">
-            <label for="brand">Product Brand</label>
-            <input type="text" id="brandToDel" />
-          </div>
-         
-
-          
-
-        
-
-          <div class="form-group">
+          <div class="form-group mt-2">
             <button
               class="btn btn-danger"
               type="submit"
@@ -138,7 +125,7 @@
               Delete Product
             </button>
           </div>
-          <p id= "selected"> </p>
+         
         </form>
           </div>
         </div>
@@ -161,34 +148,41 @@
       crossorigin="anonymous"
     ></script>
     <script>
+let productList=[]
+    window.onload = async () => {
 
-         window.onload = async () => {
+                const url="https:striveschool-api.herokuapp.com/api/product/"
+                
 
-const url="https:striveschool-api.herokuapp.com/api/product/"
-
-
- try{
-     let response = await fetch(url,{
-             method:"GET",
-             headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"
-                     }
-         });
-     let products=await response.json()
-     console.log(products)
-     if (products.length > 0) {
-         products.forEach((e) => {})
-        
-         } 
- }catch (error) {
-console.log(error);
-}
-}
+                try{
+                    let response = await fetch(url,{
+                            method:"GET",
+                            headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"
+                                    }
+                        });
+                    let products=await response.json()
+                    
+                    if (products.length > 0) {
+                        products.forEach((e) => {productList.push(e)
+                        let dropdown=document.getElementById('product-dropdown')
+                         dropdown.innerHTML+=
+                        `<option value="${e._id}">"${e.name}"</option>
+ `
+                    })
+                        
+                        } 
+                        
+                 }catch (error) {
+                console.log(error);
+                }
+     }
         const handleSubmit = (e) => {
         e.preventDefault(); // preventing the default browser event handling
         submitProduct();
          };
 
      const submitProduct = async () => {
+        
 
           const url="https:striveschool-api.herokuapp.com/api/product/"
 
@@ -223,11 +217,15 @@ console.log(error);
        }
        }
 
+      
+      
+       console.log(productList)
+      
        
 
-       const deleteProduct= function(id){
-            let nameTodel=document.querySelector("#nameToDel").value            
-          let brandToDel=document.querySelector("#brandToDel").value 
+       const handleDelete= function(){
+           
+       let id=document.querySelector('select').value
         
            fetch('https:striveschool-api.herokuapp.com/api/product/' + id, {
             method: 'DELETE',
