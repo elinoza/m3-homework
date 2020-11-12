@@ -56,6 +56,26 @@
       integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin="anonymous"
     ></script>
-    <script></script>
+    <script>
+        window.onload = async () => {
+            try {
+             let response = await fetch(
+            "https://jsonplaceholder.typicode.com/users",
+
+            {
+              method: "GET",
+           
+             
+            });
+            let user = await response.json();
+            console.log(user)
+        }
+        catch (exception) {
+         
+        }
+    }
+
+        
+    </script>
   </body>
 </html>

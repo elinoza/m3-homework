@@ -107,7 +107,7 @@
           </div>
           <div class="col-6 col-md-6 pr-4">
             <h2 class="text-center mt-5">Delete a  product</h2>
-            <form onsubmit="handleDelete(event)">
+            <form >
      
           <label for="product-dropdown">Choose the product</label>
             <select id="product-dropdown">
@@ -121,6 +121,7 @@
               class="btn btn-danger"
               type="submit"
               value="Delete Product"
+              id="deleteBTN"
             >
               Delete Product
             </button>
@@ -149,6 +150,8 @@
     ></script>
     <script>
 let productList=[]
+
+
     window.onload = async () => {
 
                 const url="https:striveschool-api.herokuapp.com/api/product/"
@@ -169,17 +172,34 @@ let productList=[]
                         `<option value="${e._id}">"${e.name}"</option>
  `
                     })
-                        
+                   
                         } 
                         
                  }catch (error) {
                 console.log(error);
                 }
      }
+
+     let id=document.querySelector('select').value
+     const handleDelete = function(){
+           
+           
+            
+               fetch('https:striveschool-api.herokuapp.com/api/product/' + id, {
+                method: 'DELETE',
+                headers: new Headers({ "Content-Type": "application/json" ,
+                           "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4",
+                                      })
+                            
+                })
+                .then(res =>res.json())
+                .then(res => console.log(res))
+                    }
         const handleSubmit = (e) => {
         e.preventDefault(); // preventing the default browser event handling
         submitProduct();
          };
+
 
      const submitProduct = async () => {
         
@@ -222,19 +242,9 @@ let productList=[]
        console.log(productList)
       
        
-
-       const handleDelete= function(){
-           
-       let id=document.querySelector('select').value
-        
-           fetch('https:striveschool-api.herokuapp.com/api/product/' + id, {
-            method: 'DELETE',
-            headers:{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"}
-                        
-            })
-            .then(res =>res.json())
-            .then(res => console.log(res))
-                }
+      
+       document.getElementById("deleteBTN").addEventListener("click", handleDelete);
+   
     </script>
   </body>
 </html>
