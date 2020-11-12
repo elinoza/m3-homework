@@ -53,6 +53,7 @@
         <div class="row">
           <div class="col-12 col-md-6 pl-4  ">
                 <h2 class="text-center mt-5">Add a new product</h2>
+                <img src="" id="image" class="mx-auto" width="250">
                 <form onsubmit="handleSubmit(event)">
               <div class="form-group">
                 <label for="name">Product Name</label>
@@ -111,7 +112,7 @@
      
           <label for="product-dropdown">Choose the product</label>
             <select id="product-dropdown">
-                <option value="username">default</option>
+                <option value="">default</option>
             
             
             </select>
@@ -150,24 +151,38 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      
+
+
+
+ const url="https:striveschool-api.herokuapp.com/api/product/"
 let productList=[]
 let id
-
-
-
     window.onload = async () => {
-
-                const url="https:striveschool-api.herokuapp.com/api/product/"
-                
+        let urlParams = new URLSearchParams(window.location.search);
+        id = urlParams.get("id");
+     
 
                 try{
-                    let response = await fetch(url,{
+                  let response;
+                  let products;
+
+
+                  if(id){ response = await fetch(url + id,{
                             method:"GET",
                             headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"
                                     }
                         });
-                    let products=await response.json()
+                        products = await response.json(); 
+                       console.log(products) 
+                        getinfo(products)
+
+                  } response = await fetch(url,{
+                            method:"GET",
+                            headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4"
+                                    }
+                        });
+                   products=await response.json()
+                    
                     
                     if (products.length > 0) {
                         products.forEach((e) => {productList.push(e)
@@ -175,9 +190,10 @@ let id
                          dropdown.innerHTML+=
                         `<option value=${e._id}>${e.name}</option>
  `
-                    })
+                    })}
                    
-                        } valueOnchange(products,productList)
+                   
+                        
                         
                  }catch (error) {
                 console.log(error);
@@ -188,24 +204,32 @@ let id
    document.querySelector("select").onchange = function() {valueOnchange()};
 
      const valueOnchange= function(){
+
       id=document.querySelector('select').value
-      /// const selected = productsList.filter((user) => user["_id"].includes(id));      
-          ///document.getElementById("name").value = event.name;
-          ///document.getElementById("description").value = event.description;
-          ///document.getElementById("brand").value = event.time.split(".")[0];
-          ///document.getElementById("imageUrl").value = event.price;
-          ///document.getElementById("price").value = event.price;
+      const  object= productList.filter((product) =>product._id === id)
+      console.log(object[0])
+      getinfo(object[0])
+  
           
 
-      console.log(id)
+     
 
      }
  
+     const getinfo=function(e){
+     
+                        document.getElementById("name").value = e.name;
+                        document.getElementById("description").value = e.description; 
+                        document.getElementById("brand").value = e.brand;        
+                        document.getElementById("imageUrl").value = e.imageUrl;
+                        document.getElementById("image").src = e.imageUrl;
+                        document.getElementById("price").value = e.price;
+     }
    
       const handleDelete = async () => {
-        const url = "https:striveschool-api.herokuapp.com/api/product/" + id;
+       
         try {
-          const response = await fetch(url , 
+          const response = await fetch(url+id , 
           { method: "DELETE",headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4",
                                       } });
           if (response.ok) {
@@ -231,9 +255,12 @@ let id
 
 
      const submitProduct = async () => {
-        
 
-          const url="https:striveschool-api.herokuapp.com/api/product/"
+           
+           
+                    
+
+          
 
           let myProduct = {               
                name:document.querySelector("#name").value,   
@@ -244,8 +271,22 @@ let id
        };
 
 
-           try{
-               let response = await fetch(url,{
+           try {
+             
+            let response;
+            if (id){
+              response = await fetch(url+id,{
+                       method:"PUT",
+                       body: JSON.stringify(myProduct),
+                       headers:  new Headers({ "Content-Type": "application/json" ,
+                       "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4",
+                                  })
+
+                         });
+                              
+                    }  else {
+
+                      response = await fetch(url,{
                        method:"POST",
                        body: JSON.stringify(myProduct),
                        headers:  new Headers({ "Content-Type": "application/json" ,
@@ -253,22 +294,28 @@ let id
                                   })
                               
                    });
-                   if (response.ok) {
+              
+                }
+              
+                
+          if (response.ok) {
            
+            
            
+            alert(`Product ${id ? "updated" : "created"} successfully`);
             location.assign("d8.html");
           } else {
+            
             alert("Something went wrong!");
           }
-             
-           }catch (error) {
-         console.log(error);
-       }
-       }
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
       
       
-       console.log(productList)
+       
       
        
       

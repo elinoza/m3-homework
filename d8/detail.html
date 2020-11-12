@@ -48,7 +48,7 @@
     <div class="container text-center">
       <h1>MAMAZON PRODUCT</h1>
       <h2 class="mt-5">product details</h2>
-      <div class="my-5" id="details"></div>
+      <div class=" row   my-5" id="details"></div>
       <input
         type="button"
         class="btn btn-info"
@@ -79,12 +79,14 @@
                                 }
                     });
           let product = await response.json(); // transforming the response body in an usable object, asyncronous operation!
+          console.log(product)
 
           let div= document.createElement("div");
-                    div.className="div-6 mb-1"
+          div.className="col-12"
+                    
                   
-                   div.innerHTML = `<div class="card " >
-                    <img src="${product.imageUrl}" class="card-img-top " alt="...">
+                   div.innerHTML = `<div class="card  " >
+                    <img src="${product.imageUrl}" class="card-img-top " "alt="...">
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
                         <p class="card-text">${product.description}</p>
@@ -93,7 +95,7 @@
                             <p class="card-text m-0 p-0 ">${product.price}$</p>
 
                         </div>
-                        <a href="detail.html?id=${e._id}" class="btn btn-primary">Go Detail</a>
+                       
                     </div>
                     </div>`;
                 
@@ -106,7 +108,7 @@
 
 
       const handleDelete = async () => {
-        const url = "https:striveschool-api.herokuapp.com/api/product/" + id;
+       
         try {
           const response = await fetch(url + id , 
           { method: "DELETE",headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4",
