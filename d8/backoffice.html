@@ -119,9 +119,10 @@
           <div class="form-group mt-2">
             <button
               class="btn btn-danger"
-              type="submit"
-              value="Delete Product"
+              type="button"
+              value="DELETE"
               id="deleteBTN"
+              onclick="handleDelete()"
             >
               Delete Product
             </button>
@@ -149,7 +150,10 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      
 let productList=[]
+let id
+
 
 
     window.onload = async () => {
@@ -169,32 +173,57 @@ let productList=[]
                         products.forEach((e) => {productList.push(e)
                         let dropdown=document.getElementById('product-dropdown')
                          dropdown.innerHTML+=
-                        `<option value="${e._id}">"${e.name}"</option>
+                        `<option value=${e._id}>${e.name}</option>
  `
                     })
                    
-                        } 
+                        } valueOnchange(products,productList)
                         
                  }catch (error) {
                 console.log(error);
                 }
      }
 
-     let id=document.querySelector('select').value
-     const handleDelete = function(){
+    
+   document.querySelector("select").onchange = function() {valueOnchange()};
+
+     const valueOnchange= function(){
+      id=document.querySelector('select').value
+      /// const selected = productsList.filter((user) => user["_id"].includes(id));      
+          ///document.getElementById("name").value = event.name;
+          ///document.getElementById("description").value = event.description;
+          ///document.getElementById("brand").value = event.time.split(".")[0];
+          ///document.getElementById("imageUrl").value = event.price;
+          ///document.getElementById("price").value = event.price;
+          
+
+      console.log(id)
+
+     }
+ 
+   
+      const handleDelete = async () => {
+        const url = "https:striveschool-api.herokuapp.com/api/product/" + id;
+        try {
+          const response = await fetch(url , 
+          { method: "DELETE",headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4",
+                                      } });
+          if (response.ok) {
+            
+            alert("Event deleted successfully");
+            location.assign("d8.html");
+          } else {
+            alert("Something went wrong!");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
            
            
             
-               fetch('https:striveschool-api.herokuapp.com/api/product/' + id, {
-                method: 'DELETE',
-                headers: new Headers({ "Content-Type": "application/json" ,
-                           "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiYzVlNDRiY2RlMTAwMTc2MTZhOGMiLCJpYXQiOjE2MDUwOTI4MzYsImV4cCI6MTYwNjMwMjQzNn0.WhMSFCkXM7Kce2PHfWpeMJzgGollHyDrz9caaKXZzs4",
-                                      })
-                            
-                })
-                .then(res =>res.json())
-                .then(res => console.log(res))
-                    }
+         
+
         const handleSubmit = (e) => {
         e.preventDefault(); // preventing the default browser event handling
         submitProduct();
@@ -243,7 +272,7 @@ let productList=[]
       
        
       
-       document.getElementById("deleteBTN").addEventListener("click", handleDelete);
+      
    
     </script>
   </body>
