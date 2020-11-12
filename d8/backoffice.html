@@ -17,6 +17,14 @@
     />
 
     <title>Hello, world!</title>
+    <style>
+      h2{ background-color:rgb(228, 228, 228);
+      padding:10px}
+
+      
+     
+
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
@@ -51,7 +59,7 @@
         <h5 class="text-center bg-success text-white">Admin Panel</h5>
         
         <div class="row">
-          <div class="col-12 col-md-6 pl-4  ">
+          <div class="col-12 col-md-6 pl-4 bg-col  ">
                 <h2 class="text-center mt-5">Add a new product</h2>
                 <img src="" id="image" class="mx-auto" width="250">
                 <form onsubmit="handleSubmit(event)">
@@ -62,6 +70,7 @@
                   class="form-control"
                   id="name"
                   placeholder="Write here the product name"
+                  required
                 />
               </div>
   
@@ -72,15 +81,16 @@
                   id="description"
                   rows="3"
                   placeholder="Write here the event description"
+                  required
                 ></textarea>
               </div>
               <div class="form-group">
                 <label for="brand">Product Brand</label>
-                <input type="text" id="brand" />
+                <input type="text" id="brand" required />
               </div>
               <div class="form-group">
                 <label for="url">Product Image URL</label>
-                <input type="text" id="imageUrl" />
+                <input type="text" required id="imageUrl" />
               </div>
   
               <div class="form-group">
@@ -90,6 +100,7 @@
                   class="form-control"
                   id="price"
                   placeholder="Write here the event price"
+                  required
                 />
               </div>
   
@@ -100,13 +111,18 @@
                   class="btn btn-success"
                   type="submit"
                   value="Submit Product"
-                >
+                > <span
+                class="spinner-border spinner-border-sm text-warning d-none"
+                role="status"
+                aria-hidden="true"
+                id="loadingSpinner"
+              ></span>
                   Submit Product
                 </button>
               </div>
             </form>
           </div>
-          <div class="col-6 col-md-6 pr-4">
+          <div class="col-12 col-md-6 pr-4 bg-col">
             <h2 class="text-center mt-5">Delete a  product</h2>
             <form >
      
@@ -258,7 +274,9 @@ let id
 
            
            
-                    
+      let spinner = document.querySelector("#loadingSpinner");
+      spinner.classList.toggle("d-none"); 
+      
 
           
 
@@ -298,7 +316,7 @@ let id
                 }
               
                 
-          if (response.ok) {
+          if (response.ok) {spinner.classList.toggle("d-none"); 
            
             
            

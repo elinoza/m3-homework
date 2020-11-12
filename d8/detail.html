@@ -15,6 +15,12 @@
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
+    <style>
+           img{
+               max-width: 500px;
+                max-height: 300px
+                } 
+    </style>
   </head>
 
   <body>
@@ -47,21 +53,9 @@
 
     <div class="container text-center">
       <h1>MAMAZON PRODUCT</h1>
-      <h2 class="mt-5">product details</h2>
-      <div class=" row   my-5" id="details"></div>
-      <input
-        type="button"
-        class="btn btn-info"
-        value="EDIT"
-        onclick="handleEdit()"
-      />
-      <input
-        type="button"
-        class="btn btn-danger"
-        value="DELETE"
-        onclick="handleDelete()"
-      />
-    </div>
+      <h2 class="mt-1">product details</h2>
+      <div class=" row  mb-5" id="details"></div>
+      
 
     <script>
       let id;
@@ -85,14 +79,27 @@
           div.className="col-12"
                     
                   
-                   div.innerHTML = `<div class="card  " >
-                    <img src="${product.imageUrl}" class="card-img-top " "alt="...">
+                   div.innerHTML = `<div class="card align-items-center " >
+                    <img src="${product.imageUrl}" class="card-img-top m-1 mt-3 " "alt="...">
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
                         <p class="card-text">${product.description}</p>
                         <div>
                             <p class="card-text m-0 p-0 mr-auto">${product.brand}</p>
                             <p class="card-text m-0 p-0 ">${product.price}$</p>
+                            <input
+                                type="button"
+                                class="btn btn-info m-1 "
+                                value="EDIT"
+                                onclick="handleEdit()"
+                            />
+                            <input
+                                type="button"
+                                class="btn btn-danger m-1"
+                                value="DELETE"
+                                onclick="handleDelete()"
+                            />
+                            </div>
 
                         </div>
                        
